@@ -557,10 +557,12 @@ function dayOfYear(d) {
 
 function daysUntilBirthday(month, day) {
   const now = today();
+  // Compare at midnight to avoid daylight saving time errors
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yr = now.getFullYear();
   let bday = new Date(yr, month - 1, day);
-  if (bday < now) bday = new Date(yr + 1, month - 1, day);
-  const diff = Math.floor((bday - now) / 86400000);
+  if (bday < todayMidnight) bday = new Date(yr + 1, month - 1, day);
+  const diff = Math.round((bday - todayMidnight) / 86400000);
   return diff;
 }
 
@@ -796,4 +798,3 @@ renderWeek();
 </script>
 </body>
 </html>
-Done
